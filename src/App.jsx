@@ -9,14 +9,17 @@ import {
   Avatar,
   useTheme,
   useMediaQuery,
-  Chip
+  Chip,
+  IconButton
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineConnector, TimelineContent } from '@mui/lab';
- import ultima from './assets/Ultima.jpg'
- import penultima from './assets/Penultima.jpg'
- import antepenultima from './assets/antepenultima.jpg'
- import fosfo from './assets/fosfo.jpg'
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import ImageIcon from '@mui/icons-material/Image';
+import ultima from './assets/Ultima.jpg';
+import penultima from './assets/angelpr.mp4';
+import antepenultima from './assets/antepenultima.jpg';
+import fosfo from './assets/antepenultima.jpg';
 
 // Iconos personalizados (SVG)
 const BibleIcon = () => (
@@ -31,85 +34,83 @@ const ChurchIcon = () => (
   </svg>
 );
 
-const PrayerIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '1rem', height: '1rem' }}>
-    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v3H8v2h3v3h2v-3h3v-2h-3V8z"/>
-  </svg>
-);
-
-const WorshipIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '1rem', height: '1rem' }}>
-    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6zm-2 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
-  </svg>
-);
-
 const memoriesData = [
   {
     id: 1,
-    date: '2025-10-14',
-    title: 'Cedula',
+    date: '2025-10-15', // Cambiado a miércoles
+    title: 'Célula Uvalle',
     description: 'Día completo de reflexión y oración.',
     image: ultima,
-    type: 'retiro',
+    type: 'servicio',
     participants: 24,
-    verses: 'Salmo 23, Mateo 11:28-30'
+    verses: 'Salmo 23, Mateo 11:28-30',
+    mediaType: 'foto' // Nuevo campo para tipo de medio
   },
   {
     id: 2,
-    date: '2025-10-07',
-    title: 'Cedula',
-    description: 'Compartio nuestro hermano angel',
+    date: '2025-10-08', // Cambiado a miércoles
+    title: 'Célula Uvalle',
+    description: 'Compartió nuestro hermano Ángel',
     image: penultima,
     type: 'estudio',
     participants: 18,
-    verses: 'Romanos 12'
+    verses: 'Romanos 12',
+    mediaType: 'video'
   },
   {
     id: 3,
-    date: '2025-09-30',
-    title: 'Cedula',
+    date: '2025-10-01', // Cambiado a miércoles
+    title: 'Célula Uvalle',
     description: 'Día completo de reflexión y oración.',
     image: antepenultima,
     type: 'servicio',
     participants: 45,
-    verses: 'Hebreos 11:1-6'
+    verses: 'Hebreos 11:1-6',
+    mediaType: 'foto'
   },
   {
     id: 4,
-    date: '2025-09-23',
-    title: 'Fosfo',
-    description: 'unión de las ramas en casa uvalle',
+    date: '2025-09-24', // Cambiado a miércoles
+    title: 'Fosfo Uvalle',
+    description: 'Unión de las ramas en casa Uvalle',
     image: fosfo,
     type: 'servicio',
     participants: 45,
-    verses: 'Juan 10:1-6'
+    verses: 'Juan 10:1-6',
+    mediaType: 'foto'
   },
 ];
 
 const getIconByType = (type) => {
   switch(type) {
-    case 'retiro': return <PrayerIcon />;
     case 'estudio': return <BibleIcon />;
     case 'servicio': return <ChurchIcon />;
-    case 'alabanza': return <WorshipIcon />;
     default: return <ChurchIcon />;
   }
 };
 
 const getColorByType = (type) => {
   switch(type) {
-    case 'retiro': return 'primary';
     case 'estudio': return 'secondary';
-    case 'servicio': return 'success';
-    case 'alabanza': return 'warning';
-    case 'bautismo': return 'info';
+    case 'servicio': return 'primary';
     default: return 'primary';
   }
 };
 
 const TimelineMemoryCard = ({ memory, isMobile, index }) => {
   const theme = useTheme();
+  const [isHovered, setIsHovered] = useState(false);
   
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
+
   return (
     <Card 
       sx={{ 
@@ -124,20 +125,72 @@ const TimelineMemoryCard = ({ memory, isMobile, index }) => {
         }
       }}
     >
-      <CardMedia
-        component="img"
-        height="200"
-        image={memory.image}
-        alt={memory.title}
-        sx={{
-          objectFit: 'cover',
-          filter: 'brightness(0.9)',
-          transition: 'filter 0.3s ease',
-          '&:hover': {
-            filter: 'brightness(1.05)'
-          }
+      <Box 
+        sx={{ 
+          position: 'relative',
+          height: 200,
+          overflow: 'hidden'
         }}
-      />
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {memory.mediaType === 'video' ? (
+          <>
+            <CardMedia
+              component="video"
+              src={memory.image}
+              alt={memory.title}
+              controls
+              muted
+              sx={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
+            />
+            {!isHovered && (
+              <Box sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'rgba(0,0,0,0.3)'
+              }}>
+                <PlayCircleFilledIcon 
+                  sx={{ 
+                    color: 'white', 
+                    fontSize: '4rem',
+                    textShadow: '0 0 10px rgba(0,0,0,0.5)'
+                  }} 
+                />
+              </Box>
+            )}
+          </>
+        ) : (
+          <CardMedia
+            component="img"
+            height="200"
+            image={memory.image}
+            alt={memory.title}
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              filter: 'brightness(0.9)',
+              transition: 'filter 0.3s ease',
+              '&:hover': {
+                filter: 'brightness(1.05)'
+              }
+            }}
+          />
+        )}
+      </Box>
+      
+      {/* Resto del componente permanece igual */}
       <CardContent sx={{ position: 'relative' }}>
         <Box sx={{ 
           position: 'absolute', 
@@ -146,7 +199,9 @@ const TimelineMemoryCard = ({ memory, isMobile, index }) => {
           bgcolor: theme.palette.background.paper,
           borderRadius: '50%',
           p: 1,
-          boxShadow: 3
+          boxShadow: 3,
+          display: 'flex',
+          alignItems: 'center'
         }}>
           <Avatar sx={{ 
             bgcolor: `${theme.palette[getColorByType(memory.type)].main}`, 
@@ -155,6 +210,16 @@ const TimelineMemoryCard = ({ memory, isMobile, index }) => {
           }}>
             {getIconByType(memory.type)}
           </Avatar>
+        </Box>
+        
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+          <Chip 
+            icon={memory.mediaType === 'video' ? <PlayCircleFilledIcon /> : <ImageIcon />}
+            label={memory.mediaType === 'video' ? 'Video' : 'Foto'}
+            size="small"
+            color={memory.mediaType === 'video' ? 'secondary' : 'primary'}
+            sx={{ mr: 1 }}
+          />
         </Box>
         
         <Typography variant="h6" component="h3" gutterBottom sx={{ mt: 1, fontWeight: 600 }}>
@@ -167,12 +232,7 @@ const TimelineMemoryCard = ({ memory, isMobile, index }) => {
         
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <Typography variant="caption" sx={{ color: 'text.secondary', mr: 1 }}>
-            {new Date(memory.date).toLocaleDateString('es-ES', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
+            {formatDate(memory.date)}
           </Typography>
           <Chip 
             label={`${memory.participants} participantes`} 
@@ -226,7 +286,7 @@ const MemoriesDashboard = () => {
               textShadow: '1px 1px 2px rgba(0,0,0,0.1)'
             }}
           >
-            Cedula Uvalle
+            Célula Uvalle
           </Typography>
           <Typography variant="subtitle1" color="text.secondary">
             Recordando los momentos especiales en la presencia de Dios
