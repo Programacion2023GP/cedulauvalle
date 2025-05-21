@@ -19,7 +19,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import ultima from './assets/Ultima.jpg';
 import penultima from './assets/angelpr.mp4';
 import antepenultima from './assets/antepenultima.jpg';
-import fosfo from './assets/antepenultima.jpg';
+import fosfo from './assets/fosfo.jpg';
 
 // Iconos personalizados (SVG)
 const BibleIcon = () => (
