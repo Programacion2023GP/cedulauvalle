@@ -216,7 +216,7 @@ const MemoriesDashboard = () => {
               textShadow: '1px 1px 2px rgba(0,0,0,0.1)'
             }}
           >
-            Línea del Tiempo Espiritual
+            Cedula Uvalle
           </Typography>
           <Typography variant="subtitle1" color="text.secondary">
             Recordando los momentos especiales en la presencia de Dios
