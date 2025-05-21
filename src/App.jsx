@@ -16,6 +16,7 @@ import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineConnect
  import ultima from './assets/Ultima.jpg'
  import penultima from './assets/Penultima.jpg'
  import antepenultima from './assets/antepenultima.jpg'
+ import fosfo from './assets/antepenultima.jpg'
 
 // Iconos personalizados (SVG)
 const BibleIcon = () => (
@@ -73,7 +74,16 @@ const memoriesData = [
     participants: 45,
     verses: 'Hebreos 11:1-6'
   },
-
+  {
+    id: 3,
+    date: '2025-09-23',
+    title: 'Fosfo',
+    description: 'unión de las ramas en casa uvalle',
+    image: fosfo,
+    type: 'servicio',
+    participants: 45,
+    verses: 'Juan 10:1-6'
+  },
 ];
 
 const getIconByType = (type) => {
