@@ -457,7 +457,7 @@ const MemoriesDashboard = () => {
               textAlign: "center",
             }}
           >
-            Juegos Bíblicos
+            Juegos 
           </Typography>
           <Divider sx={{ mb: 6 }} />
           <Games />
@@ -473,7 +473,7 @@ const MemoriesDashboard = () => {
       )}
     
      
-     
+
       
     </Box>
   );
