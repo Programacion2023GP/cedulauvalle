@@ -123,11 +123,11 @@ const ExpandedMemoryDialog = ({ memory, open, onClose }) => {
                 label={formatDate(memory.date)}
                 variant="outlined"
               />
-              <Chip 
+              {/* <Chip 
                 icon={<PeopleIcon />}
                 label={`${memory.participants} participantes`}
                 variant="outlined"
-              />
+              /> */}
               <Chip 
                 icon={<MenuBookIcon />}
                 label={`Versículos: ${memory.verses}`}
@@ -191,7 +191,7 @@ const ExpandedMemoryDialog = ({ memory, open, onClose }) => {
               </Box>
             )}
             
-            {memory.testimonies && (
+            {/* {memory.testimonies && (
               <Box sx={{ mb: 3 }}>
                 <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
                   <CommentIcon sx={{ mr: 1 }} /> Testimonios
@@ -204,9 +204,9 @@ const ExpandedMemoryDialog = ({ memory, open, onClose }) => {
                   ))}
                 </Paper>
               </Box>
-            )}
+            )} */}
             
-            {memory.comments && (
+            {/* {memory.comments && (
               <Box sx={{ mb: 3 }}>
                 <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
                   <CommentIcon sx={{ mr: 1 }} /> Comentarios
@@ -228,7 +228,7 @@ const ExpandedMemoryDialog = ({ memory, open, onClose }) => {
                   ))}
                 </List>
               </Box>
-            )}
+            )} */}
           </Box>
         </DialogContent>
         
@@ -239,7 +239,7 @@ const ExpandedMemoryDialog = ({ memory, open, onClose }) => {
           bgcolor: 'background.paper',
           borderTop: `1px solid ${theme.palette.divider}`
         }}>
-          <Button startIcon={<FavoriteIcon />} color="error">
+          {/* <Button startIcon={<FavoriteIcon />} color="error">
             Me gusta
           </Button>
           <Button startIcon={<CommentIcon />}>
@@ -247,7 +247,7 @@ const ExpandedMemoryDialog = ({ memory, open, onClose }) => {
           </Button>
           <Button startIcon={<ShareIcon />}>
             Compartir
-          </Button>
+          </Button> */}
         </Box>
       </Dialog>
     );

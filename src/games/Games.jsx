@@ -12,13 +12,16 @@ import ultima from '../assets/Ultima.jpg';
 import Ahorcado from './ahorcado/Ahorcado';
 import Quiz from './quiz/Quiz';
 import MemoramaBiblico from './memorama/Memorama';
+import ahorcado from '../assets/ahorcado.png';
+import cartas from '../assets/carta.png';
+import baraja from '../assets/baraja.png';
 
 const gamesData = [
   {
     id: 1,
     name: "Memorama",
     description: "Encuentra las parejas de personajes y versículos bíblicos",
-    image: ultima,
+    image: baraja,
     bgColor: "#f8f5f2",
     message: "¡Prepárate para ejercitar tu memoria con versículos bíblicos!"
   },
@@ -26,7 +29,7 @@ const gamesData = [
     id: 2,
     name: "Ahorcado",
     description: "Adivina palabras bíblicas antes de completar la cruz",
-    image: ultima,
+    image: ahorcado,
     bgColor: "#f0f4f8",
     message: "¡Adivina la palabra antes de que se complete la cruz!"
   },
@@ -34,7 +37,7 @@ const gamesData = [
     id: 3,
     name: "Quiz",
     description: "Pon a prueba tu conocimiento de las Escrituras",
-    image: ultima,
+    image: cartas,
     bgColor: "#f5f0f8",
     message: "¿Cuánto sabes de la Biblia? ¡Averígualo ahora!"
   }
@@ -53,7 +56,6 @@ const GameCard = ({ game, onClick }) => {
         alignItems: 'center',
         justifyContent: 'space-between',
         borderRadius: 2,
-        backgroundColor: game.bgColor,
         border: '1px solid #e0e0e0',
         transition: 'transform 0.3s ease',
         cursor: 'pointer',
@@ -130,6 +132,7 @@ const Games = () => {
 
   return (
     <>
+  
       <Box 
         display="flex" 
         flexDirection={{ xs: 'column', sm: 'row' }}
@@ -140,10 +143,10 @@ const Games = () => {
         alignItems="center"
         sx={{ 
           minHeight: '100vh', 
-          bgcolor: '#fafafa',
-          backgroundImage: 'linear-gradient(to bottom, #ffffff, #f9f9f9)'
         }}
       >
+                 
+
         {gamesData.map((game) => (
           <GameCard key={game.id} game={game} onClick={() => handleOpen(game)} />
         ))}
