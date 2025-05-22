@@ -2,274 +2,41 @@ import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Typography, 
-  Card, 
-  CardMedia, 
-  CardContent, 
   Container,
-  Avatar,
   useTheme,
   useMediaQuery,
-  Chip,
-  IconButton
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineConnector, TimelineContent } from '@mui/lab';
-import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
-import ImageIcon from '@mui/icons-material/Image';
-import ultima from './assets/Ultima.jpg';
-import penultima from './assets/angelpr.mp4';
-import antepenultima from './assets/antepenultima.jpg';
-import fosfo from './assets/fosfo.jpg';
-
-// Iconos personalizados (SVG)
-const BibleIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '1rem', height: '1rem' }}>
-    <path d="M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H7V4h5v5l2-2 2 2V4h3v16z"/>
-  </svg>
-);
-
-const ChurchIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: '1rem', height: '1rem' }}>
-    <path d="M18 12.22V9l-5-2.5V5h2V3h-2V1h-2v2H9v2h2v1.5L6 9v3.22L2 14v8h9v-4c0-.55.45-1 1-1s1 .45 1 1v4h9v-8l-4-1.78zM12 13.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-  </svg>
-);
-
-const memoriesData = [
-  {
-    id: 1,
-    date: '2025-10-15', // Cambiado a miércoles
-    title: 'Célula Uvalle',
-    description: 'Día completo de reflexión y oración.',
-    image: ultima,
-    type: 'servicio',
-    participants: 24,
-    verses: 'Salmo 23, Mateo 11:28-30',
-    mediaType: 'foto' // Nuevo campo para tipo de medio
-  },
-  {
-    id: 2,
-    date: '2025-10-08', // Cambiado a miércoles
-    title: 'Célula Uvalle',
-    description: 'Compartió nuestro hermano Ángel',
-    image: penultima,
-    type: 'estudio',
-    participants: 18,
-    verses: 'Romanos 12',
-    mediaType: 'video'
-  },
-  {
-    id: 3,
-    date: '2025-10-01', // Cambiado a miércoles
-    title: 'Célula Uvalle',
-    description: 'Día completo de reflexión y oración.',
-    image: antepenultima,
-    type: 'servicio',
-    participants: 45,
-    verses: 'Hebreos 11:1-6',
-    mediaType: 'foto'
-  },
-  {
-    id: 4,
-    date: '2025-09-24', // Cambiado a miércoles
-    title: 'Fosfo Uvalle',
-    description: 'Unión de las ramas en casa Uvalle',
-    image: fosfo,
-    type: 'servicio',
-    participants: 45,
-    verses: 'Juan 10:1-6',
-    mediaType: 'foto'
-  },
-];
-
-const getIconByType = (type) => {
-  switch(type) {
-    case 'estudio': return <BibleIcon />;
-    case 'servicio': return <ChurchIcon />;
-    default: return <ChurchIcon />;
-  }
-};
-
-const getColorByType = (type) => {
-  switch(type) {
-    case 'estudio': return 'secondary';
-    case 'servicio': return 'primary';
-    default: return 'primary';
-  }
-};
-
-const TimelineMemoryCard = ({ memory, isMobile, index }) => {
-  const theme = useTheme();
-  const [isHovered, setIsHovered] = useState(false);
-  
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-  };
-
-  return (
-    <Card 
-      sx={{ 
-        mb: 3, 
-        boxShadow: 3,
-        borderRadius: 4,
-        overflow: 'hidden',
-        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-        '&:hover': {
-          transform: 'translateY(-5px)',
-          boxShadow: 6
-        }
-      }}
-    >
-      <Box 
-        sx={{ 
-          position: 'relative',
-          height: 200,
-          overflow: 'hidden'
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {memory.mediaType === 'video' ? (
-          <>
-            <CardMedia
-              component="video"
-              src={memory.image}
-              alt={memory.title}
-              controls
-              muted
-              sx={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
-            />
-            {!isHovered && (
-              <Box sx={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'rgba(0,0,0,0.3)'
-              }}>
-                <PlayCircleFilledIcon 
-                  sx={{ 
-                    color: 'white', 
-                    fontSize: '4rem',
-                    textShadow: '0 0 10px rgba(0,0,0,0.5)'
-                  }} 
-                />
-              </Box>
-            )}
-          </>
-        ) : (
-          <CardMedia
-            component="img"
-            height="200"
-            image={memory.image}
-            alt={memory.title}
-            sx={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              filter: 'brightness(0.9)',
-              transition: 'filter 0.3s ease',
-              '&:hover': {
-                filter: 'brightness(1.05)'
-              }
-            }}
-          />
-        )}
-      </Box>
-      
-      {/* Resto del componente permanece igual */}
-      <CardContent sx={{ position: 'relative' }}>
-        <Box sx={{ 
-          position: 'absolute', 
-          top: -20, 
-          right: 20,
-          bgcolor: theme.palette.background.paper,
-          borderRadius: '50%',
-          p: 1,
-          boxShadow: 3,
-          display: 'flex',
-          alignItems: 'center'
-        }}>
-          <Avatar sx={{ 
-            bgcolor: `${theme.palette[getColorByType(memory.type)].main}`, 
-            width: 40, 
-            height: 40 
-          }}>
-            {getIconByType(memory.type)}
-          </Avatar>
-        </Box>
-        
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-          <Chip 
-            icon={memory.mediaType === 'video' ? <PlayCircleFilledIcon /> : <ImageIcon />}
-            label={memory.mediaType === 'video' ? 'Video' : 'Foto'}
-            size="small"
-            color={memory.mediaType === 'video' ? 'secondary' : 'primary'}
-            sx={{ mr: 1 }}
-          />
-        </Box>
-        
-        <Typography variant="h6" component="h3" gutterBottom sx={{ mt: 1, fontWeight: 600 }}>
-          {memory.title}
-        </Typography>
-        
-        <Typography variant="body2" color="text.secondary" paragraph>
-          {memory.description}
-        </Typography>
-        
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-          <Typography variant="caption" sx={{ color: 'text.secondary', mr: 1 }}>
-            {formatDate(memory.date)}
-          </Typography>
-          <Chip 
-            label={`${memory.participants} participantes`} 
-            size="small" 
-            sx={{ ml: 'auto' }}
-          />
-        </Box>
-        
-        {memory.verses && (
-          <Box sx={{ 
-            mt: 1,
-            p: 1,
-            borderRadius: 1,
-            bgcolor: 'action.hover',
-            borderLeft: `3px solid ${theme.palette[getColorByType(memory.type)].main}`
-          }}>
-            <Typography variant="caption" sx={{ fontStyle: 'italic' }}>
-              "Versículos: {memory.verses}"
-            </Typography>
-          </Box>
-        )}
-      </CardContent>
-    </Card>
-  );
-};
+import ExpandedMemoryDialog from './expandedmemorydialog/ExpandedMemoryDialog';
+import TimelineMemoryCard from './timelinememorycard/TimelineMemoryCard';
+import { memoriesData } from './data/data';
+import { getColorByType, getIconByType } from './utils/functions';
+import Games from './games/Games';
 
 const MemoriesDashboard = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [loaded, setLoaded] = useState(false);
+  const [selectedMemory, setSelectedMemory] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     setLoaded(true);
   }, []);
 
+  const handleMemoryClick = (memory) => {
+    setSelectedMemory(memory);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+    <>
+      <Games/>
       <Box sx={{ textAlign: 'center', mb: 6 }}>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -283,12 +50,13 @@ const MemoriesDashboard = () => {
             sx={{ 
               fontWeight: 700,
               color: theme.palette.primary.dark,
-              textShadow: '1px 1px 2px rgba(0,0,0,0.1)'
+              textShadow: '1px 1px 2px rgba(0,0,0,0.1)',
+              fontSize: isMobile ? '2rem' : '3rem'
             }}
           >
             Célula Uvalle
           </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
+          <Typography variant="subtitle1" color="text.secondary" sx={{ fontSize: isMobile ? '0.9rem' : '1rem' }}>
             Recordando los momentos especiales en la presencia de Dios
           </Typography>
         </motion.div>
@@ -328,7 +96,12 @@ const MemoriesDashboard = () => {
                   delay: index * 0.15
                 }}
               >
-                <TimelineMemoryCard memory={memory} isMobile={isMobile} index={index} />
+                <TimelineMemoryCard 
+                  memory={memory} 
+                  isMobile={isMobile} 
+                  index={index} 
+                  onClick={() => handleMemoryClick(memory)}
+                />
               </motion.div>
             </TimelineContent>
           </TimelineItem>
@@ -346,17 +119,42 @@ const MemoriesDashboard = () => {
           p: 3,
           borderRadius: 2,
           bgcolor: 'background.paper',
-          boxShadow: 1
+          boxShadow: 1,
+          position: 'relative',
+          overflow: 'hidden'
         }}>
-          <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 1 }}>
+          <Box sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: `linear-gradient(45deg, ${theme.palette.primary.light} 0%, transparent 100%)`,
+            opacity: 0.1,
+            zIndex: 0
+          }} />
+          <Typography variant="body1" sx={{ 
+            fontStyle: 'italic', 
+            mb: 1,
+            position: 'relative',
+            zIndex: 1
+          }}>
             "Porque donde están dos o tres congregados en mi nombre, allí estoy yo en medio de ellos."
           </Typography>
-          <Typography variant="subtitle2" color="text.secondary">
+          <Typography variant="subtitle2" color="text.secondary" sx={{ position: 'relative', zIndex: 1 }}>
             Mateo 18:20
           </Typography>
         </Box>
       </motion.div>
-    </Container>
+      
+      {selectedMemory && (
+        <ExpandedMemoryDialog 
+          memory={selectedMemory} 
+          open={openDialog} 
+          onClose={handleCloseDialog} 
+        />
+      )}
+    </>
   );
 };
 
